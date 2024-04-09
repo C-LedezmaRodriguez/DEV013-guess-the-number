@@ -1,74 +1,76 @@
+"Importar librería random"
 import random
 
-def secretNum():
-    #Genera un número random entre 1 y 100
+def secret_num():
+    """Genera un número random entre 1 y 100"""
     return random.randint(1,100)
 
-
-def userGuess(userInput):
-    #solicita al jugador que ingrese un número y revisa si es correcto
+def user_guess():
+    """solicita al jugador que ingrese un número y revisa si es correcto"""
+    while True:
         try:
-            playerNum= int(userInput)
-            return playerNum
+            player_num = int(input("Guess the number, between 1 and 100: "))
+            if 1 <= player_num <= 100:
+                return player_num
+            print("Please enter a number between 1 and 100")
         except ValueError:
             print("Please enter a correct number.")
-def compGuess(minNum, maxNum):
-    #Genera un número random entre 1 y 100 para el ordenador
-    return random.randint(minNum, maxNum)
+def comp_guess(min_num, max_num):
+    """Genera un número random entre 1 y 100 para el ordenador"""
+    return random.randint(min_num, max_num)
 
-def gameAttempts(playerGuess, secretNumber):
-    #Verifica si el intento del jugador es correcto, menor o mayor
-    if playerGuess == secretNumber:
+def game_attempts(player_guess, secret_number):
+    """Verifica si el intento del jugador es correcto, menor o mayor"""
+    if player_guess == secret_number:
         return True, "Congratulations, you guessed the number!"
-    elif playerGuess < secretNumber:
+    if player_guess < secret_number:
         return False, "Your number is lower, keep trying"
-    else:
-        return False, "Your number is higuer, keep trying"
-    
-def gamePlay():
-    #inicia el juego
+    return False, "Your number is higuer, keep trying"
+
+def game_play():
+    """inicia el juego"""
     print("¡Welcome to the guess game!")
-    
-    secretNumber = secretNum()
-    print(secretNumber)
-    userContAttempts = 0
-    compContAttempts = 0
-    totalUserAttempts = []
-    totalCompAttempts = []
-    
+
+    secret_number = secret_num()
+    print(secret_number)
+    user_cont_attempts = 0
+    comp_cont_attempts = 0
+    total_user_attempts = []
+    total_comp_attempts = []
+
     while True:
-        userContAttempts +=1
-        
-        userAttempt = userGuess(input("Guess the number, between 1 and 100: "))
-        totalUserAttempts.append(userAttempt)
-        print("User turn: ", userAttempt)
-        succes,resultUser = gameAttempts(userAttempt, secretNumber)
-        print(resultUser)
-        
-            
+        user_cont_attempts +=1
+
+        user_attempt = user_guess()
+        total_user_attempts.append(user_attempt)
+        print("User turn: ", user_attempt)
+        succes,result_user = game_attempts(user_attempt, secret_number)
+        print(result_user)
+
         if succes:
             break
-        
-        compContAttempts +=1
-            
-        compAttempt = compGuess(1, 100)
-        totalCompAttempts.append(compAttempt)
-        print("Computer turn: ", compAttempt)
-        succes,resultComp = gameAttempts(compAttempt, secretNumber)
-        print(resultComp)
-        
+
+        comp_cont_attempts+=1
+
+        comp_attempt = comp_guess(1, 100)
+        total_comp_attempts.append(comp_attempt)
+        print("Computer turn: ", comp_attempt)
+        succes,result_comp = game_attempts(comp_attempt, secret_number)
+        print(result_comp)
+
         if succes:
             break
-    
-    print(f"The secret number was {secretNumber}.")
-    print(f"You made {userContAttempts} attempts, and your attempts were: {totalUserAttempts}")
-    print(f"The computer made {compContAttempts} attempts, and its attempts were: {totalCompAttempts}")
-            
-    playAgain = input("¿Do you wanna play again? (y/n): ")
-    if playAgain.lower() == "y":
-        gamePlay()
+
+    print(f"The secret number was {secret_number}.")
+    print(f"You made {user_cont_attempts} attempts, and those were: {total_user_attempts}")
+    print(f"The computer made {comp_cont_attempts} attempts, and those were: {total_comp_attempts}")
+
+    play_again = input("¿Do you wanna play again? (y/n): ")
+    if play_again.lower() == "y":
+        game_play()
     else:
         print("Thank you! See you next time")
-             
+
 if __name__ == "__main__":
-    gamePlay()
+    game_play()
+    
